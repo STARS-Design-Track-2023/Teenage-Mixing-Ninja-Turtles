@@ -5,7 +5,7 @@
 * [Name]
 * [Name]
 * [Name]
-* [TA]
+* Htet Yan
 
 ## [Project Name]
 Description of functionality, how to use it, and any supporting equipment required
