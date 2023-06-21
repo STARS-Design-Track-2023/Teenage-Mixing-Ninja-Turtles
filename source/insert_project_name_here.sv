@@ -1,4 +1,5 @@
 `default_nettype none
+
 module insert_project_name_here (
     // HW
     input logic clk, nrst,
