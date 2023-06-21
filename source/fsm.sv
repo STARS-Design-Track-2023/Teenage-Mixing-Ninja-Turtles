@@ -9,8 +9,8 @@ module fsm(
     );
     //internal signals
     logic [1:0]next_mode;
-    always_ff @( posedge modekey, posedge n_rst ) begin : blockName
-        if (n_rst) 
+    always_ff @( posedge modekey, negedge n_rst ) begin : blockName
+        if (~n_rst) 
         mode <= 0;
     else 
         mode <= next_mode;
