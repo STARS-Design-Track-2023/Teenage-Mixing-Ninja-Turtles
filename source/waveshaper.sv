@@ -3,32 +3,31 @@
 
 module waveshaper(
     //inputs
-    logic [15:0] fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10, fd11, fd12;
-    logic [15:0] count1, count2, count3, count4, count5, count6, count7, count8, count9, count10, count11, count12;
-    logic [1:0] mode;
-    logic start;
-    logic clk;
-    logic rst;
+    logic [15:0] fd,
+    logic [15:0] count,
+    logic [1:0] mode,
+    logic start,
+    logic clk,
+    logic rst,
     //outputs
-    logic [7:0] signal [11:0];
+    logic [7:0] signal
 );
 
 //internal signals
-logic [7:0] quotient [11:0];
+logic [7:0] quotient;
 
 //your code here
-for (int i=0; i<11; i++) begin
+
     sequential_div div(
         .clk(clk),
         .rst(rst),
         .start(start),
         .done(done),
-        .dividend(count[i] << 6),
-        .divisor({6'b0, fd[i]}),
-        .fin_quo(quotient[i]),
-        
+        .dividend(count << 6),
+        .divisor({6'b0, fd}),
+        .fin_quo(quotient)
     );
-end
+
 
 
 case(mode)
@@ -38,7 +37,7 @@ case(mode)
     end
     2'b01: begin
         //square
-        signal = (count > fd/2)
+        signal = (count > fd/2);
     end
     2'b10: begin
         //triangle
@@ -55,12 +54,12 @@ endmodule
 
 
 module sequential_div(
-input wire logic clk,              // clock
-    input wire logic rst,              // reset
-    input wire logic start,            // start calculation
+input logic clk,              // clock
+    input logic rst,              // reset
+    input logic start,            // start calculation
     output     logic done,             // calculation is complete (high for one tick)
-    input wire logic [WIDTH - 1:0] dividend,    // dividend (numerator)
-    input wire logic [WIDTH - 1:0] divisor,    // divisor (denominator)
+    input logic [WIDTH - 1:0] dividend,    // dividend (numerator)
+    input logic [WIDTH - 1:0] divisor,    // divisor (denominator)
     output     logic [WIDTH - 14:0] fin_quo,  // result value: quotient
     output     logic [WIDTH - 1:0] rem   // result: remainder
     );
