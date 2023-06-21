@@ -18,7 +18,7 @@ module pwm(
     logic next_pwm_out;             //next pwm output
 
     //Flip flop for pwm
-    always_ff @(posedge clk, posedge n_rst) begin
+    always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst) begin
             if (start) begin
                 final_sample_in <= final_in;

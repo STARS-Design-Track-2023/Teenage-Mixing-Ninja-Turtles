@@ -1,5 +1,5 @@
 
-module clkDiv#(
+module clkdiv#(
     parameter BITLEN = 8
     ) (
     input logic clk,                    // clock
@@ -14,7 +14,7 @@ module clkDiv#(
     logic next_hzX;
 
     //flip flop
-    always_ff @ (posedge clk, negedge n_rst) begin
+    always_ff @(posedge clk, negedge n_rst) begin
         if (!n_rst) begin
             cnt <= 0;
             hzX <= 0;
