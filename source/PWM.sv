@@ -36,7 +36,7 @@ module pwm(
     //comb logic for pwm
     always_comb begin
         //next counter
-        if(count == 255)
+        if(counter == 255)
             next_counter = 8'b0;
         else
             next_counter = counter + 1;
@@ -49,4 +49,3 @@ module pwm(
     end
 
 endmodule
-```

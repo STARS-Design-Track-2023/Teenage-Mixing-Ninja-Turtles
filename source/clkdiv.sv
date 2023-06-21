@@ -1,29 +1,4 @@
 
-module oscillator (
-    input logic clk,                    // clock input
-    input logic n_rst,                  // reset input active low
-    input [15:0] freq_div_table [0:11], // frequency division table
-    output [15:0] counts [0:11]         // output counts
-    );
-
-    generate
-        genvar i;
-        for (i = 0; i < 12; i++) begin
-            clkDiv #(.BITLEN(16)) clkDiv_inst (
-                .clk(clk),
-                .n_rst(n_rst),
-                .lim(freq_div_table[i]),
-                .hzX(),
-                .cnt_out(counts[i])
-            );
-        end
-    endgenerate
-
-
-endmodule
-
-////////Supporting modules////////
-
 module clkDiv#(
     parameter BITLEN = 8
     ) (

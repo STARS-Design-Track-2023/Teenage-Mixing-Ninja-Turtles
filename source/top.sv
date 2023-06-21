@@ -19,9 +19,9 @@ module top
 //inter signal
 logic modekey;              //modekey signal  to be used for mode change
 logic clk;                  // dummy clock used to set 12M to 10M
-logic [15:0] Count [11:0];  //counters for wave shaper
-logic [7:0] samples [11:0]; //samples from wave shaper
-logic [11:0] sample_enable; //sample enable from wave shaper
+logic [15:0] Count [11:0];  //counters for wave shaper from oscillator
+logic [7:0] samples [11:0]; //samples from wave shaper to signal mixer
+logic [11:0] sample_enable; //sample enable for signal mixer
 logic [7:0] final_sample;   //final sample from signal mixer
 logic start;                //start signal from wave shaper
 logic pwm, pwm_out;         //pwm output
@@ -52,10 +52,22 @@ logic [15:0] freq_div_table [11:0]= {
 
 
 //sample rate clk div
+sample_rate_clkdiv sample_rate_clkdiv(
+  .clk(clk),
+  .n_rst(reset),
+  .sample_now(start)
+);
 
 //oscillators
+oscillator osc(
+  .clk(clk),
+  .n_rst(reset),
+  .freq_div_table(freq_div_table),
+  .counts(Count)
+);
 
 //waveshapers
+
 
 //signal mixer
 signal_mixr mixer(
@@ -65,7 +77,7 @@ signal_mixr mixer(
 );
 
 //pwm
-pwm pwm(
+pwm PWM(
   .clk(clk),
   .n_rst(reset),
   .start(start),
@@ -111,10 +123,51 @@ module keypad(
 endmodule
 
 /////  Sample Rate Divider Module  ///////
+module sample_rate_clkdiv(
+    //inputs
+    input logic clk,                   // clock
+    input logic n_rst,                 // active high reset
+    //outputs
+    output logic sample_now            // sample now
+    );
+
+    //internal signals
+    clkDiv #(
+        .BITLEN(8)
+    ) clkDiv_inst (
+        .clk(clk),
+        .n_rst(n_rst),
+        .lim(255),
+        .hzX(sample_now),
+        .cnt_out()
+    ); 
+
+endmodule
 
 
 /////////// Oscillator Module ////////////
+module oscillator (
+    input logic clk,                    // clock input
+    input logic n_rst,                  // reset input active low
+    input [15:0] freq_div_table [0:11], // frequency division table
+    output [15:0] counts [0:11]         // output counts
+    );
 
+    generate
+        genvar i;
+        for (i = 0; i < 12; i++) begin
+            clkDiv #(.BITLEN(16)) clkDiv_inst (
+                .clk(clk),
+                .n_rst(n_rst),
+                .lim(freq_div_table[i]),
+                .hzX(),
+                .cnt_out(counts[i])
+            );
+        end
+    endgenerate
+
+
+endmodule
 
 /////////// Wave Shaper Module ///////////
 
@@ -122,31 +175,28 @@ endmodule
 /////////// Signal Mixer Module //////////
 module signal_mixr(
     //inputs
-    input logic [7:0] samples_in [11:0],    //12 samples 8bit each
+    input logic [7:0] samples_in [11:0],    //12 samples 8-bit each
     input logic [11:0] sample_enable,       //12 samples enable
     //outputs
-    output logic [7:0] sample_out           //1 sample 8bit output
+    output logic [7:0] sample_out           //1 sample 8-bit output
     );
     
     //internal signals
-    integer i;
-    logic [11:0] accumulator;
+    logic [8:0] accumulator;
     
+
     //sum all the samples
-    for (i = 0; i < 12; i=i+1) begin
-        if (sample_enable[i]) begin
-            accumulator = accumulator + samples_in[i];
+    always_comb begin
+        accumulator = 0;
+        for (int i = 0; i < 12; i++) begin
+            if (sample_enable[i]) begin
+                accumulator += samples_in[i];
+            end
         end
     end
     
-    //saturation arithmetic
-    if (accumulator > 255) begin //overflow
-        accumulator = 255;
-    end else if (accumulator < 0) begin //underflow
-        accumulator = 0;
-    end 
-    
-    sample_out = accumulator[7:0];
+    // Assign the output as the sum of all the enabled samples
+    assign sample_out = accumulator[7:0];
 
 endmodule
 
@@ -187,7 +237,7 @@ module pwm(
     //comb logic for pwm
     always_comb begin
         //next counter
-        if(count == 255)
+        if(counter == 255)
             next_counter = 8'b0;
         else
             next_counter = counter + 1;
@@ -199,4 +249,45 @@ module pwm(
             next_pwm_out = 1'b0;
     end
 
+endmodule
+
+//////////// Clock Div Module ////////////
+module clkDiv#(
+    parameter BITLEN = 8
+    ) (
+    input logic clk,                    // clock
+    input logic n_rst,                    // active high reset 
+    input logic [BITLEN-1:0] lim,       // limit for counter
+    output logic hzX,                   // output clock
+    output logic [BITLEN-1:0] cnt_out   // counter
+    );
+
+    logic [BITLEN-1:0] cnt;
+    logic [BITLEN-1:0] next_cnt;
+    logic next_hzX;
+
+    //flip flop
+    always_ff @ (posedge clk, negedge n_rst) begin
+        if (!n_rst) begin
+            cnt <= 0;
+            hzX <= 0;
+        end
+        else
+            cnt <= next_cnt;
+            hzX <= next_hzX;
+    end
+
+    //combinational logic
+    always_comb begin
+        if (cnt == lim) begin
+            next_cnt = 0;
+            next_hzX = 1;
+        end
+        else begin
+            next_cnt = cnt + 1;
+            next_hzX = 0;
+        end
+    end
+
+            
 endmodule
