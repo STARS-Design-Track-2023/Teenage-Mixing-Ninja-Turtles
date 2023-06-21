@@ -19,9 +19,10 @@ module clkdiv#(
             cnt <= 0;
             hzX <= 0;
         end
-        else
+        else begin
             cnt <= next_cnt;
             hzX <= next_hzX;
+        end
     end
 
     //combinational logic
