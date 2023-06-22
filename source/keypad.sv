@@ -12,7 +12,7 @@ module keypad(
 //internal signals
 logic [1:0] delay;
 
-always_ff @( posedge clk, posedge n_rst ) begin : blockName
+always_ff @( posedge clk, negedge n_rst ) begin : blockName
     if (n_rst) 
         delay <= {delay[0], in};
     else 
@@ -24,4 +24,3 @@ assign modekey = delay[0] & ~delay[1];
 
 
 endmodule
-```
