@@ -7,7 +7,7 @@
 */
 
 module frequency_divider (
-    input logic nrst,
+    input logic clk, nrst,
     input logic octave,
     output logic [15:0] div0, div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11
 );
@@ -30,7 +30,7 @@ module frequency_divider (
     logic [1:0] state;
     logic [1:0] next_state;
 
-    always_ff @ (posedge octave or negedge nrst) begin
+    always_ff @ (posedge clk or negedge nrst) begin
         if (!nrst) begin
             state <= 2'b00;
         end
@@ -43,13 +43,13 @@ module frequency_divider (
         // set next state
         case (state)
             2'b00: begin // lowest octave
-                next_state = 2'b01;
+                next_state = octave ? 2'b01 : 2'b00;
             end
             2'b01: begin // middle octave
-                next_state = 2'b11;
+                next_state = octave ? 2'b10 : 2'b01;
             end
             2'b11: begin // highest octave
-                next_state = 2'b00; 
+                next_state = octave ? 2'b00 : 2'b11;
             end
             default: next_state = 2'b00;
         endcase

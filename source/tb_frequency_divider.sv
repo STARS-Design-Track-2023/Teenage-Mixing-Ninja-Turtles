@@ -2,10 +2,10 @@
 
 module tb_frequency_divider ();
     
-    logic N_RST, OCTAVE;
+    logic CLK, N_RST, OCTAVE;
     logic [15:0] O, O1, O2, O3, O4, O5, O6, O7, O8, O9, O10, O11;
 
-    frequency_divider u1 (.nrst(N_RST), .octave(OCTAVE), .div0(O), div1(O1), 
+    frequency_divider u1 (.clk(CLK), .nrst(N_RST), .octave(OCTAVE), .div0(O), div1(O1), 
         div2(O2), div3(O3), div4(O4), div5(O5), div6(O6), div7(O7), div8(O8),   
         div9(O9), div10(O10), div11(O11));
 
