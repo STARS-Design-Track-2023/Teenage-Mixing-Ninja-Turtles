@@ -7,8 +7,7 @@
 */
 
 module frequency_divider (
-    // HW
-    input logic clk, nrst,
+    input logic nrst,
     input logic octave,
     output logic [15:0] div0, div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11
 );
@@ -28,46 +27,46 @@ module frequency_divider (
     assign low_as = 16'd21452; // count for A#
     assign low_b = 16'd20248; // count for B  
 
-    logic [2:0] state;
-    logic [2:0] next_state;
+    logic [1:0] state;
+    logic [1:0] next_state;
 
     always_ff @ (posedge octave or negedge nrst) begin
         if (!nrst) begin
-            state <= 3'b001;
+            state <= 2'b00;
         end
         else begin
-            state <= next_state
+            state <= next_state;
         end
     end
 
     always_comb begin
         // set next state
         case (state)
-            3'b001: begin // lowest octave
-                next_state = 3'b010;
+            2'b00: begin // lowest octave
+                next_state = 2'b01;
             end
-            3'b010: begin // middle octave
-                next_state = 3'b100;
+            2'b01: begin // middle octave
+                next_state = 2'b11;
             end
-            3'b100: begin // highest octave
-                next_state = 3'b001; 
+            2'b11: begin // highest octave
+                next_state = 2'b00; 
             end
-            default: next_state = 3'b001 
+            default: next_state = 2'b00;
         endcase
 
         // set outputs from the current states and the lowest octave
-        div0 = low_c / state;
-        div1 = low_cs / state;
-        div2 = low_d / state;
-        div3 = low_ds / state;
-        div4 = low_e / state;
-        div5 = low_f / state;
-        div6 = low_fs / state;
-        div7 = low_g / state;
-        div8 = low_gs / state;
-        div9 = low_a / state;
-        div10 = low_as / state;
-        div11 = low_b / state;
+        div0 = low_c >> state;
+        div1 = low_cs >> state;
+        div2 = low_d >> state;
+        div3 = low_ds >> state;
+        div4 = low_e >> state;
+        div5 = low_f >> state;
+        div6 = low_fs >> state;
+        div7 = low_g >> state;
+        div8 = low_gs >> state;
+        div9 = low_a >> state;
+        div10 = low_as >> state;
+        div11 = low_b >> state;
     end
 
 endmodule
