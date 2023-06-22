@@ -1,17 +1,5 @@
 `default_nettype none
 
-waveshaper u1(
-    //inputs
-    .fd(fd),
-    .count(count),
-    .mode(mode),
-    .start(start),
-    .clk(clk),
-    .rst(rst),
-    //outputs
-    .signal(signal)
-);
-
 module waveshaper(
   //inputs
   input logic [15:0] fd,
