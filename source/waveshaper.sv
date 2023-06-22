@@ -9,7 +9,8 @@ module waveshaper(
   input logic clk,
   input logic nrst,
   //outputs
-  output logic [7:0] signal
+  output logic [7:0] signal,
+  output logic done
 );
 
   //internal signals
@@ -21,7 +22,7 @@ module waveshaper(
     .clk(clk),
     .nrst(nrst), // Updated signal name from "nrst" to "rst"
     .start(start),
-    .done(),
+    .done(done),
     .dividend({count, 6'b0}),
     .divisor({6'b0, fd}),
     .fin_quo(quotient)
