@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
 
-tb_signal_mixer();
+module tb_signal_mixer();
     localparam CLK_PERIOD = 100;
-    logic tb_clk;
+    logic tb_clk = 0;
     logic tb_reset;
 
 
@@ -26,8 +26,8 @@ tb_signal_mixer();
 
     // TB signal
     integer tb_test_num;
-    logic tb_mismatch;
-    logic tb_check;
+    integer tb_passed;
+
 
     //clock gen
     always #(CLK_PERIOD/2) tb_clk = ~tb_clk;
@@ -46,20 +46,6 @@ tb_signal_mixer();
                 //release reset
                 tb_reset = 1;
 
-                //rest signals
-                tb_sample1 = 0;
-                tb_sample2 = 0;
-                tb_sample3 = 0;
-                tb_sample4 = 0;
-                tb_sample5 = 0;
-                tb_sample6 = 0;
-                tb_sample7 = 0;
-                tb_sample8 = 0;
-                tb_sample9 = 0;
-                tb_sample10 = 0;
-                tb_sample11 = 0;
-                tb_sample12 = 0;
-                
                 //wait 2 clock cycles
                 @(posedge tb_clk);
                 @(posedge tb_clk);
@@ -67,24 +53,42 @@ tb_signal_mixer();
             end
         endtask
 
-    // check outputs
+    // reset inputs
+    task reset_inputs;
+        begin
+            //rest signals
+            tb_sample1 = 0;
+            tb_sample2 = 0;
+            tb_sample3 = 0;
+            tb_sample4 = 0;
+            tb_sample5 = 0;
+            tb_sample6 = 0;
+            tb_sample7 = 0;
+            tb_sample8 = 0;
+            tb_sample9 = 0;
+            tb_sample10 = 0;
+            tb_sample11 = 0;
+            tb_sample12 = 0;
+            tb_sample_enable = 0;
+        end
+    endtask
+
+    /////// check outputs////////
     task check_output;
         begin
             //check output
             if (tb_sample_out != tb_expected_out) begin
                 $display("FAILED: test %d,  sample_out = %d, expected_out = %d", tb_test_num, tb_sample_out, tb_expected_out);
-                tb_mismatch = tb_mismatch + 1;
+                
             end
             else
-                $display("PASSED: test %d,  sample_out = %d, expected_out = %d", tb_test_num, tb_sample_out, tb_expected_out);
+                //$display("PASSED: test %d,  sample_out = %d, expected_out = %d", tb_test_num, tb_sample_out, tb_expected_out);
+                tb_passed = tb_passed + 1;
         end
     endtask
 
-    //instance DUT
-
+    //////////instance DUT//////////
     signal_mixer dut (
-        .clk(tb_clk),
-        .reset(tb_reset),
         .sample1(tb_sample1),
         .sample2(tb_sample2),
         .sample3(tb_sample3),
@@ -101,47 +105,40 @@ tb_signal_mixer();
         .sample_out(tb_sample_out)
     );
 
-    `include ".v"
-    `default_nettype none
-    
+    //////// dump file /////////
     initial begin
-        $dumpfile("tb_.vcd");
-        $dumpvars(0, tb_);
+        $dumpfile("dump.vcd");
+        $dumpvars;
     end
     
-    initial begin
-        #1 rst_n<=1'bx;clk<=1'bx;
-        #(CLK_PERIOD*3) rst_n<=1;
-        #(CLK_PERIOD*3) rst_n<=0;clk<=0;
-        repeat(5) @(posedge clk);
-        rst_n<=1;
-        @(posedge clk);
-        repeat(2) @(posedge clk);
-        $finish(2);
-    end
-    
+    ///////////// test cases //////////////
     initial begin
         //inital values
         tb_test_num = 0;
-        tb_mismatch = 0;
-        tb_check = 0;
-        tb_sample_enable = 0;
-        tb_expected_out = 0;
+        tb_passed = 0;
+        reset_inputs;
         reset_dut;
 
-        // test 1 sample 1 pass through
+    // test 1 sample 1 pass through
         tb_test_num = tb_test_num + 1;
+
+        //tests
         tb_sample1 = 25;
-        tb_sample_enable = 8'b11111111;
+        tb_sample_enable = 12'b111111111111;
         tb_expected_out = 25;
         @(posedge tb_clk);
         check_output;
 
-        // test 2 sample 2 pass through only 1 enable
-        reset_dut;
+    // test 2 sample 2 pass through only 2 enable
+        //reset
         tb_test_num = tb_test_num + 1;
+        reset_dut;
+        reset_inputs;
+
+        //tests
+        tb_sample1 = 25;
         tb_sample2 = 25;
-        tb_sample_enable = 8'b00000001;
+        tb_sample_enable = 12'b000000000010;
         tb_expected_out = 25;
         @(posedge tb_clk);
         check_output;
@@ -161,7 +158,7 @@ tb_signal_mixer();
         tb_sample10 = 25;
         tb_sample11 = 25;
         tb_sample12 = 25;
-        tb_sample_enable = 8'b00000000;
+        tb_sample_enable = 12'b000000000000;
         tb_expected_out = 0;
         @(posedge tb_clk);
         check_output;
@@ -171,7 +168,7 @@ tb_signal_mixer();
         tb_test_num = tb_test_num + 1;
         tb_sample1 = 25;
         tb_sample2 = 25;
-        tb_sample_enable = 8'b00000011;
+        tb_sample_enable = 12'b000000000011;
         tb_expected_out = 50;
         @(posedge tb_clk);
         check_output;
@@ -182,7 +179,7 @@ tb_signal_mixer();
         tb_sample1 = 25;
         tb_sample2 = 25;
         tb_sample3 = 25;
-        tb_sample_enable = 8'b00000111;
+        tb_sample_enable = 12'b000000000111;
         tb_expected_out = 75;
         @(posedge tb_clk);
         check_output;
@@ -192,9 +189,12 @@ tb_signal_mixer();
         tb_test_num = tb_test_num + 1;
         tb_sample1 = 200;
         tb_sample2 = 200;
-        tb_sample_enable = 8'b00000011;
+        tb_sample_enable = 12'b000000000011;
         tb_expected_out = 255;
         @(posedge tb_clk);
         check_output;
 
-        
+        $display("Testbench finished: %d/%d tests passed", tb_passed, tb_test_num);
+      $finish;
+    end
+endmodule
