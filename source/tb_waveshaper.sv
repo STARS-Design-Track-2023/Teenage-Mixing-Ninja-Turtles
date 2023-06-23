@@ -23,7 +23,16 @@ module tb_sequential_div;
   logic tb_done;                     // calculation is complete (high for one tick)
   logic [WIDTH - 15:0] tb_fin_quo;    // result value: quotient
   logic [WIDTH - 1:0] tb_rem;         // result: remainder
-  logic [WIDTH - 1:0] tb_expected;    // expected result
+  logic [WIDTH - 15:0] tb_expected;    // expected result
+
+  // waveshaper Testbench signals
+  logic [15:0] tb_fd;
+  logic [15:0] tb_count;
+  logic [1:0] tb_mode;
+  logic tb_done_waveshaper;  
+  logic [7:0] tb_signal;
+  logic [7:0] tb_signal_expected;
+  logic [7:0] tb_quotient;
 
   // Signal related to TB
   integer tb_test_num;
@@ -84,6 +93,18 @@ module tb_sequential_div;
     end
   endtask
 
+      task check_output_waveshaper;
+    begin
+      // Check output
+      if ( tb_signal == tb_signal_expected) begin
+        $display("PASSED: W Test %d Expected %d Signal %d", tb_test_num, tb_signal_expected, tb_signal);
+      end else begin
+        $display("FAILED: W Test %d Expected %d Signal %d", tb_test_num, tb_signal_expected, tb_signal);
+        tb_mismatch = tb_mismatch + 1;
+      end
+    end
+  endtask
+
   // Sequential Div module instantiation
   sequential_div #(22) div_inst (
     .clk(tb_clk),
@@ -94,6 +115,18 @@ module tb_sequential_div;
     .divisor(tb_divisor),
     .fin_quo(tb_fin_quo),
     .rem(tb_rem)
+  );
+
+  // DUT instance
+  waveshaper dut (
+    .clk(tb_clk),
+    .nrst(tb_n_rst),
+    .fd(tb_fd),
+    .count(tb_count),
+    .mode(tb_mode),
+    .start(tb_start),
+    .signal(tb_signal),
+    .done(tb_done_waveshaper)
   );
 
   // Testbench process
@@ -112,7 +145,7 @@ module tb_sequential_div;
     // Set dividend and divisor values
     tb_dividend = 22'd7;
     tb_divisor = 22'd2;
-    tb_expected = 22'd3;
+    tb_expected = 8'd3;
 
     // Start calculation
     start_calculation;
@@ -128,14 +161,12 @@ module tb_sequential_div;
     
     // Finish simulation
 
-
-
   // Test Case 2: Dividend = 0, Divisor = 5, Expected = 0
   tb_test_num = tb_test_num + 1;
   reset_dut;
   tb_dividend = 22'd0;
   tb_divisor = 22'd5;
-  tb_expected = 22'd0;
+  tb_expected = 8'd0;
   start_calculation;
   @(posedge tb_clk);
   while (!tb_done)
@@ -148,7 +179,7 @@ module tb_sequential_div;
   reset_dut;
   tb_dividend = 22'd10;
   tb_divisor = 22'd3;
-  tb_expected = 22'd3;
+  tb_expected = 8'd3;
   start_calculation;
   @(posedge tb_clk);
   while (!tb_done)
@@ -161,7 +192,7 @@ tb_test_num = tb_test_num + 1;
 reset_dut;
 tb_dividend = 22'd123456;  // Large dividend
 tb_divisor = 22'd987654;   // Large divisor
-tb_expected = 22'd0;           // Expected result (quotient) depends on the specific values used
+tb_expected = 8'd0;           // Expected result (quotient) depends on the specific values used
 start_calculation;
 @(posedge tb_clk);
 while (!tb_done)
@@ -174,14 +205,235 @@ tb_test_num = tb_test_num + 1;
 reset_dut;
 tb_dividend = 22'd123456;  // Large dividend
 tb_divisor = 22'd123456;   // Large divisor
-tb_expected = 22'd1;           // Expected result (quotient) depends on the specific values used
+tb_expected = 8'd1;           // Expected result (quotient) depends on the specific values used
 start_calculation;
 @(posedge tb_clk);
 while (!tb_done)
   @(posedge tb_clk);
 check_output;
 
+// wave shaper testbench
+//wave shaper test 1  
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd0;
+      tb_count = 16'd0;
+      tb_mode = 2'b00;
+      tb_start = 0;
+      tb_signal_expected = 8'd0;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+    // Run the test case
+
+      //wave shaper test 2  
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd0;
+      tb_mode = 2'b00;
+      tb_start = 0;
+      tb_signal_expected = 8'd0;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+    // Run the test case
+
+            //wave shaper test 3  
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd22464;
+      tb_mode = 2'b00;
+      tb_start = 0;
+      tb_signal_expected = 8'd0;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+    // Run the test case
+
+                  //wave shaper test 4  
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd0;
+      tb_count = 16'd22464;
+      tb_mode = 2'b00;
+      tb_start = 0;
+      tb_signal_expected = 8'd0;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+    // Run the test case
+
+                  //wave shaper test 5 
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd22624;
+      tb_mode = 2'b01;
+      tb_start = 0;
+      tb_signal_expected = 8'b11111111;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+    // Run the test case
+
+    //wave shaper test 6
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd224;
+      tb_mode = 2'b01;
+      tb_start = 0;
+      tb_signal_expected = 8'b0;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+    // Run the test case
+
+  //wave shaper test 7 
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd12004;
+      tb_mode = 2'b01;
+      tb_start = 0;
+      tb_signal_expected = 8'b11111111;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+
+  //wave shaper test 8 
+    tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd6002;
+      tb_mode = 2'b01;
+      tb_start = 0;
+      tb_signal_expected = 8'b0;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+
+  //wave shaper test 9
+      tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd12004;
+      tb_count = 16'd6003;
+      tb_mode = 2'b01;
+      tb_start = 0;
+      tb_signal_expected = 8'd255;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+
+  //wave shaper test 10
+        tb_test_num = tb_test_num + 1;
+    reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd20;
+      tb_count = 16'd11;
+      tb_mode = 2'b01;
+      tb_start = 0;
+      tb_signal_expected = 8'd255;
+
+      start_calculation;
+
+      @(posedge tb_clk);
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+
+  //wave shaper test 11
+        tb_test_num = tb_test_num + 1; 
+        reset_dut;
+    // Initialize clock
+    tb_clk = 0;
+          // Initialize inputs
+      tb_fd = 16'd200;
+      tb_count = 16'd1920;
+      tb_mode = 2'b10;
+      tb_start = 0;
+      tb_quotient = 8'd9;
+      tb_signal_expected = (tb_count > tb_fd/2) ? (2 * tb_quotient) : 128 - (2 * tb_quotient);
+
+      start_calculation;
+      check_output_waveshaper;
+      @(posedge tb_clk);
+      check_output_waveshaper;
+      while (!tb_done)
+        @(posedge tb_clk);
+      check_output_waveshaper;
+      check_output_waveshaper;
+
   // Finish simulation
   $finish;
 end
 endmodule
+
+

@@ -15,6 +15,7 @@ module waveshaper(
 
   //internal signals
   logic [7:0] quotient;
+  logic hasquo;
 
   //your code here
 
@@ -22,7 +23,7 @@ module waveshaper(
     .clk(clk),
     .nrst(nrst), // Updated signal name from "nrst" to "rst"
     .start(start),
-    .done(done),
+    .done(hasquo),
     .dividend({count, 6'b0}),
     .divisor({6'b0, fd}),
     .fin_quo(quotient)
@@ -43,7 +44,12 @@ module waveshaper(
         end
         2'b10: begin
           //triangle
-          signal = (count > fd/2) ? (2 * quotient) : 128 - (2 * quotient);
+          if (hasquo)
+          signal = (count > (fd>>1)) ? (quotient << 1) : 128 - (quotient << 1);
+          else
+          begin
+            signal =55;
+          end
         end
         2'b11: begin
           //sawtooth
