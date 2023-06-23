@@ -2,10 +2,10 @@
 
 module tb_frequency_divider ();
     
-    logic CLK, N_RST, OCTAVE;
-    logic [15:0] O, O1, O2, O3, O4, O5, O6, O7, O8, O9, O10, O11;
+    logic CLK, N_RST, UP, DOWN;
+    logic [17:0] O, O1, O2, O3, O4, O5, O6, O7, O8, O9, O10, O11;
 
-    frequency_divider u1 (.clk(CLK), .nrst(N_RST), .octave(OCTAVE), .div0(O), .div1(O1), 
+    frequency_divider u1 (.clk(CLK), .nrst(N_RST), .o_up(UP), .o_down(DOWN), .div0(O), .div1(O1), 
         .div2(O2), .div3(O3), .div4(O4), .div5(O5), .div6(O6), .div7(O7), .div8(O8),   
         .div9(O9), .div10(O10), .div11(O11));
 
@@ -19,7 +19,8 @@ module tb_frequency_divider ();
         end
     endtask
 
-    task automatic disp_outs();
+    task automatic disp_outs(string test_name);
+        $display("/////%s/////", test_name);
         $display("Out 0: %d", O);
         $display("Out 1: %d", O1);
         $display("Out 2: %d", O2);
@@ -41,39 +42,80 @@ module tb_frequency_divider ();
     end
 
     initial begin
-        N_RST = 1'b0; OCTAVE = 1'b0;
+        // Initial Reset
+        N_RST = 1'b0; UP = 1'b0; DOWN = 1'b0;
         #1
         N_RST = 1'b1;
-        // lowest octave (mode 0)
-        clock(1);
-        $display("/////Initial Reset | Lowest Octave/////");
-        disp_outs();
-
-        #5 
-        // medium octave (mode 1)
-        OCTAVE = 1'b1;
-        clock(1);
-        OCTAVE = 1'b0;
-        $display("/////State Change | Medium Octave/////");
-        disp_outs();
-
-        #5 
-        // high octave (mode 2)
-        OCTAVE = 1'b1;
-        clock(1);
-        OCTAVE = 1'b0;
-        $display("/////State Change | High Octave/////");
-        disp_outs();
-
         #5
-        // back to low octave (mode 0)
-        OCTAVE = 1'b1;
+
+        // No shift
+        UP = 1'b0; DOWN = 1'b0;
         clock(1);
-        OCTAVE = 1'b0;
-        $display("/////State Change | Wrap to Lowest/////");
-        disp_outs();
-        
+        disp_outs("No Shifts - Middle Octave"); 
         #5
+
+        // Shift up 1 - Lower High
+        UP = 1'b1; DOWN = 1'b0;
+        clock(1);
+        UP = 1'b0;
+        disp_outs("Middle to Lower High Octave");
+        #5
+
+        // Shift up 1 - Upper High
+        UP = 1'b1; DOWN = 1'b0;
+        clock(1);
+        UP = 1'b0;
+        disp_outs("Lower to Upper High Octave");
+        #5
+
+        // Shift up 1 - Upper Boundary
+        UP = 1'b1; DOWN = 1'b0;
+        clock(1);
+        UP = 1'b0;
+        disp_outs("Upper Boundary - Hold Upper High Octave");
+        #5
+
+        // Shift down 1 - Boundary to Lower High
+        UP = 1'b0; DOWN = 1'b1;
+        clock(1);
+        DOWN = 1'b0;
+        disp_outs("Upper to Lower High Octave");
+        #5
+
+        // Shift down 1 - Lower High to Middle
+        UP = 1'b0; DOWN = 1'b1;
+        clock(1);
+        DOWN = 1'b0;
+        disp_outs("Lower High to Middle Octave");
+        #5
+
+        // Both buttons pressed - No Change
+        UP = 1'b1; DOWN = 1'b1;
+        clock(1);
+        UP = 1'b0; DOWN = 1'b0;
+        disp_outs("Both Buttons - Hold Middle Octave");
+        #5
+
+        // Shift down 1 - Middle to Lower Low
+        UP = 1'b0; DOWN = 1'b1;
+        clock(1);
+        DOWN = 1'b0;
+        disp_outs("Middle to Lower Low Octave");
+        #5
+
+        // Reset Non-middle octave state
+        N_RST = 1'b0; UP = 1'b0; DOWN = 1'b0;
+        #1
+        N_RST = 1'b1;
+        disp_outs("Non-middle Octave Reset");
+        #5
+
+        // Lower Boundary
+        UP = 1'b0; DOWN = 1'b1;
+        clock(3);
+        disp_outs("Lower Boundary - Hold Upper Low Octave");
+        #5
+
         $finish;
     end
 endmodule
