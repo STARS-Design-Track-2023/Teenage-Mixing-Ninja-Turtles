@@ -9,17 +9,22 @@ module fsm(
     );
     //internal signals
     logic [1:0]next_mode;
-    always_ff @( posedge modekey, negedge n_rst ) begin : blockName
+
+    //flip flop
+    always_ff @( posedge clk, negedge n_rst ) begin : fsm_ff
         if (~n_rst) 
         mode <= 0;
     else 
         mode <= next_mode;
     end
-    always_comb begin : blockNamed
+
+    //next state logic
+    always_comb begin : next_state_logic
       case (mode)
-        2'b00: next_mode = 2'b01;
-        2'b01: next_mode = 2'b10;
-        2'b10: next_mode = 2'b11;
+        2'b00: next_mode = modekey ? 2'b01 : 2'b00;
+        2'b01: next_mode = modekey ? 2'b10 : 2'b01;
+        2'b10: next_mode = modekey ? 2'b11 : 2'b10;
+        2'b11: next_mode = modekey ? 2'b00 : 2'b11;
         default: next_mode = 2'b00;
       endcase   
     end
