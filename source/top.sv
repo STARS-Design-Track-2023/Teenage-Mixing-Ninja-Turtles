@@ -3,7 +3,7 @@
 module top 
 (
   // I/O ports
-  input  logic hwclk, reset,
+  input  logic hwclk, r_eset,
   input  logic [20:0] pb,
   output logic [7:0] left, right,
          ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0,
@@ -18,12 +18,13 @@ module top
 );
 
 //inter signal
+logic reset;                //reset signal
 logic clk;                  // dummy clock used to set 12M to 10M
 logic modekey;              //modekey signal  to be used for mode change
 logic octave_up, octave_down; //octave up and down signals
 logic [11:0] done;          //done signals from wave shaper
 logic [1:0] mode;           //mode signal
-logic [17:0] freq_div_table [0:11]; //frequency division table
+logic [17:0] freq_div_table [11:0]; //frequency division table
 logic [17:0] Count [11:0];  //counters for wave shaper from oscillator
 logic [7:0] samples [11:0]; //samples from wave shaper to signal mixer
 logic [11:0] sample_enable; //sample enable for signal mixer
@@ -31,7 +32,11 @@ logic [7:0] final_sample;   //final sample from signal mixer
 logic start;                //start signal from wave shaper
 logic pwm, pwm_out;         //pwm output
 
-//keypad for modekey
+assign clk = hwclk;         // dummy clock used to set 12M to 10M
+assign reset = ~r_eset;     // reset is active low
+assign sample_enable = pb[11:0]; //sample enable from keypad
+
+//keypad for modekey //good
 keypad modein(
     .clk(clk),
     .n_rst(reset),
@@ -42,7 +47,7 @@ keypad modein(
     .octive_down(octave_down)
 );
 
-//freq divider table
+//freq divider table //good
 frequency_divider freq_div(
     .clk(clk),
     .nrst(reset),
@@ -63,7 +68,7 @@ frequency_divider freq_div(
 );
 
 
-//sample rate clk div
+//sample rate clk div // good
 sample_rate_clkdiv smpl_rt_clkdiv(
   .clk(clk),
   .n_rst(reset),
@@ -71,37 +76,17 @@ sample_rate_clkdiv smpl_rt_clkdiv(
 );
 
 //oscillators
-oscillator osc(
-  .clk(clk),
-  .n_rst(reset),
-  //freq div table
-  .freq_C(freq_div_table[0]),
-    .freq_Cs(freq_div_table[1]),
-    .freq_D(freq_div_table[2]),
-    .freq_Ds(freq_div_table[3]),
-    .freq_E(freq_div_table[4]),
-    .freq_F(freq_div_table[5]),
-    .freq_Fs(freq_div_table[6]),
-    .freq_G(freq_div_table[7]),
-    .freq_Gs(freq_div_table[8]),
-    .freq_A(freq_div_table[9]),
-    .freq_As(freq_div_table[10]),
-    .freq_B(freq_div_table[11]),
-    //counters
-  .count_out_C(Count[0]),
-    .count_out_Cs(Count[1]),
-    .count_out_D(Count[2]),
-    .count_out_Ds(Count[3]),
-    .count_out_E(Count[4]),
-    .count_out_F(Count[5]),
-    .count_out_Fs(Count[6]),
-    .count_out_G(Count[7]),
-    .count_out_Gs(Count[8]),
-    .count_out_A(Count[9]),
-    .count_out_As(Count[10]),
-    .count_out_B(Count[11])
-);
-
+generate
+  genvar i;
+    for (i=0; i<12; i= i +1)begin
+        oscillator osc(
+            .clk(clk),
+            .n_rst(reset),
+            .freq_in(freq_div_table[i]),
+            .count_out(Count[i])
+        );
+    end
+endgenerate
 
 //FSM
 fsm FSM(
@@ -113,7 +98,6 @@ fsm FSM(
 
 //waveshapers
 generate
-    genvar i;
         for (i = 0; i < 12; i = i + 1) begin
             waveshaper wave_shpr(
                 .clk(clk),
@@ -160,13 +144,9 @@ pwm PWM(
 always_ff @(posedge clk)
   pwm_out <= pwm;
 
-assign right[0] = pwm_out; // output signal
-assign left[1:0] = mode; // mode signal
-assign left[2] = modekey; // modekey signal
-assign left[3] = octave_up; // octave up signal
-assign left[4] = octave_down; // octave down signal
-assign left[5] = start; // start signal
-assign left[6] = |done; // done signal
-assign green = 1'b1; // green led
+assign {left,right} = Count[0][15:0];
+assign red = start; // red led
+
+
 
 endmodule
