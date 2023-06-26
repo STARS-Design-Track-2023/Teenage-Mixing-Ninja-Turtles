@@ -161,5 +161,12 @@ always_ff @(posedge clk)
   pwm_out <= pwm;
 
 assign right[0] = pwm_out; // output signal
+assign left[1:0] = mode; // mode signal
+assign left[2] = modekey; // modekey signal
+assign left[3] = octave_up; // octave up signal
+assign left[4] = octave_down; // octave down signal
+assign left[5] = start; // start signal
+assign left[6] = |done; // done signal
+assign green = 1'b1; // green led
 
 endmodule

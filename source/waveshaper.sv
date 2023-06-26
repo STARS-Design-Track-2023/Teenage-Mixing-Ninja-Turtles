@@ -27,7 +27,8 @@ module waveshaper(
     .done(hasquo),
     .dividend({count, 6'b0}),
     .divisor({6'b0, fd}),
-    .fin_quo(quotient)
+    .fin_quo(quotient),
+    .rem()
   );
 
   always_comb begin

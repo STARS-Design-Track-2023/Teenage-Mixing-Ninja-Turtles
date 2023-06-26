@@ -37,7 +37,8 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_C),
-        .cnt_out(count_out_C)
+        .cnt_out(count_out_C),
+        .hzX()
     );
 
     clkdiv #(
@@ -46,7 +47,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_Cs),
-
+        .hzX(),
         .cnt_out(count_out_Cs)
     );
 
@@ -56,7 +57,8 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_D),
-        .cnt_out(count_out_D)
+        .cnt_out(count_out_D),
+        .hzX()
     );
 
     clkdiv #(
@@ -65,7 +67,8 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_Ds),
-        .cnt_out(count_out_Ds)
+        .cnt_out(count_out_Ds),
+        .hzX()
     );
 
     clkdiv #(
@@ -74,7 +77,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_E),
-        
+        .hzX(),
         .cnt_out(count_out_E)
     );
 
@@ -84,7 +87,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_F),
-        
+        .hzX(),
         .cnt_out(count_out_F)
     );
 
@@ -94,7 +97,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_Fs),
-        
+        .hzX(),
         .cnt_out(count_out_Fs)
     );
 
@@ -104,7 +107,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_G),
-        
+        .hzX(),
         .cnt_out(count_out_G)
     );
 
@@ -114,7 +117,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_Gs),
-        
+        .hzX(),
         .cnt_out(count_out_Gs)
     );
 
@@ -124,7 +127,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_A),
-        
+        .hzX(),
         .cnt_out(count_out_A)
     );
 
@@ -134,7 +137,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_As),
-        
+        .hzX(),
         .cnt_out(count_out_As)
     );
 
@@ -144,7 +147,7 @@ module oscillator (
         .clk(clk),
         .n_rst(n_rst),
         .lim(freq_B),
-        
+        .hzX(),
         .cnt_out(count_out_B)
     );
     
