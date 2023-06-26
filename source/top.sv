@@ -160,5 +160,6 @@ pwm PWM(
 always_ff @(posedge clk)
   pwm_out <= pwm;
 
+assign right[0] = pwm_out; // output signal
 
 endmodule
