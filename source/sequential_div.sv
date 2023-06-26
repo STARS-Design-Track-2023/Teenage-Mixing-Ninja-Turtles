@@ -1,5 +1,4 @@
-
-module sequential_div #(parameter WIDTH = 24)(
+module sequential_div #(parameter WIDTH = 26)(
   input logic clk,              // clock
   input logic nrst,              // reset
   input logic start,            // start calculation
