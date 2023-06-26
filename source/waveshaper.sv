@@ -2,8 +2,8 @@
 
 module waveshaper(
   //inputs
-  input logic [15:0] fd,
-  input logic [15:0] count,
+  input logic [17:0] fd,
+  input logic [17:0] count,
   input logic [1:0] mode,
   input logic start,
   input logic clk,
@@ -15,14 +15,16 @@ module waveshaper(
 
   //internal signals
   logic [7:0] quotient;
+  logic hasquo;
 
+  assign done = hasquo;
   //your code here
 
-  sequential_div #(22) div(
+  sequential_div #(24) div(
     .clk(clk),
     .nrst(nrst), // Updated signal name from "nrst" to "rst"
     .start(start),
-    .done(done),
+    .done(hasquo),
     .dividend({count, 6'b0}),
     .divisor({6'b0, fd}),
     .fin_quo(quotient)
@@ -43,7 +45,14 @@ module waveshaper(
         end
         2'b10: begin
           //triangle
-          signal = (count > fd/2) ? (2 * quotient) : 128 - (2 * quotient);
+          // if (hasquo)begin
+          //$display("quotient = %d", quotient);
+          signal = (count > (fd>>1)) ? (quotient << 1) : 128 - (quotient << 1);
+          // end
+          // else
+          // begin
+          //   signal = 0;
+          // end
         end
         2'b11: begin
           //sawtooth
@@ -56,14 +65,14 @@ module waveshaper(
 endmodule
 
 
-module sequential_div #(parameter WIDTH = 22)(
+module sequential_div #(parameter WIDTH = 24)(
   input logic clk,              // clock
   input logic nrst,              // reset
   input logic start,            // start calculation
   output logic done,            // calculation is complete (high for one tick)
   input logic [WIDTH - 1:0] dividend,    // dividend (numerator)
   input logic [WIDTH - 1:0] divisor,     // divisor (denominator)
-  output logic [WIDTH - 15:0] fin_quo,  // result value: quotient
+  output logic [WIDTH - 17:0] fin_quo,  // result value: quotient
   output logic [WIDTH - 1:0] rem        // result: remainder
 );
 
