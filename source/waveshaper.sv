@@ -42,7 +42,7 @@ module waveshaper(
         end
         2'b01: begin
           //square
-          signal = {8{(count > fd/2)}};
+          signal = {2'b00,{6{(count > fd/2)}}};
         end
         2'b10: begin
           //triangle

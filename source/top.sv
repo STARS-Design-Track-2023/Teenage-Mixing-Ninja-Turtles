@@ -144,8 +144,10 @@ pwm PWM(
 always_ff @(posedge clk)
   pwm_out <= pwm;
 
-assign {left,right} = Count[0][15:0];
-assign red = start; // red led
+assign right[1] = pwm_out;
+assign right[7] = |done;
+assign left = final_sample;
+assign blue = pwm; // red led
 
 
 
