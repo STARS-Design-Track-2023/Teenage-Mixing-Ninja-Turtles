@@ -21,7 +21,7 @@ module signal_mixer(
     );
     
     //internal signals 
-    logic [8:0] accumulator;          // 8-bit accumulator for each sample
+    logic [8:0] accumulator;          // 9-bit accumulator for each sample
     logic [7:0] samples [11:0];            // 12 samples 8-bit input
 
 
@@ -44,10 +44,11 @@ module signal_mixer(
 
     // Assign the output as the sum of all the enabled samples
     always_comb begin
+
         if (accumulator >= 255)
             sample_out = 255;
         else
-            sample_out = accumulator;
+            sample_out = accumulator[7:0];
     end
 
 
