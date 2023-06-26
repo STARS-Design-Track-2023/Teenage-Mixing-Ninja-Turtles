@@ -18,7 +18,7 @@ module pwm(
     logic next_pwm_out;             //next pwm output
 
     //Flip flop for pwm
-    always_ff @(posedge clk, posedge n_rst) begin
+    always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst) begin
             if (start) begin
                 final_sample_in <= final_in;
@@ -36,7 +36,7 @@ module pwm(
     //comb logic for pwm
     always_comb begin
         //next counter
-        if(count == 255)
+        if(counter == 255)
             next_counter = 8'b0;
         else
             next_counter = counter + 1;
@@ -49,4 +49,3 @@ module pwm(
     end
 
 endmodule
-```
