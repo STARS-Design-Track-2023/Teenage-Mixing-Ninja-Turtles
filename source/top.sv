@@ -23,8 +23,8 @@ logic modekey;              //modekey signal  to be used for mode change
 logic octave_up, octave_down; //octave up and down signals
 logic [11:0] done;          //done signals from wave shaper
 logic [1:0] mode;           //mode signal
-logic [15:0] freq_div_table [0:11]; //frequency division table
-logic [15:0] Count [11:0];  //counters for wave shaper from oscillator
+logic [17:0] freq_div_table [0:11]; //frequency division table
+logic [17:0] Count [11:0];  //counters for wave shaper from oscillator
 logic [7:0] samples [11:0]; //samples from wave shaper to signal mixer
 logic [11:0] sample_enable; //sample enable for signal mixer
 logic [7:0] final_sample;   //final sample from signal mixer
@@ -64,7 +64,7 @@ frequency_divider freq_div(
 
 
 //sample rate clk div
-sample_rate_clkdiv sample_rate_clkdiv(
+sample_rate_clkdiv smpl_rt_clkdiv(
   .clk(clk),
   .n_rst(reset),
   .sample_now(start)

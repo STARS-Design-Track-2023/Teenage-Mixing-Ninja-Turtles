@@ -3,36 +3,36 @@ module oscillator (
     input logic clk,                    // clock input
     input logic n_rst,                  // reset input active low
     //input [15:0] freq_div_table [0:11], // frequency division table
-    input logic [15:0] freq_C,
-    input logic [15:0] freq_Cs,
-    input logic [15:0] freq_D,
-    input logic [15:0] freq_Ds,
-    input logic [15:0] freq_E,
-    input logic [15:0] freq_F,
-    input logic [15:0] freq_Fs,
-    input logic [15:0] freq_G,
-    input logic [15:0] freq_Gs,
-    input logic [15:0] freq_A,
-    input logic [15:0] freq_As,
-    input logic [15:0] freq_B,
+    input logic [17:0] freq_C,
+    input logic [17:0] freq_Cs,
+    input logic [17:0] freq_D,
+    input logic [17:0] freq_Ds,
+    input logic [17:0] freq_E,
+    input logic [17:0] freq_F,
+    input logic [17:0] freq_Fs,
+    input logic [17:0] freq_G,
+    input logic [17:0] freq_Gs,
+    input logic [17:0] freq_A,
+    input logic [17:0] freq_As,
+    input logic [17:0] freq_B,
     //output [15:0] counts [0:11]         // output counts
-    output logic [15:0] count_out_C,
-    output logic [15:0] count_out_Cs,
-    output logic [15:0] count_out_D,
-    output logic [15:0] count_out_Ds,
-    output logic [15:0] count_out_E,
-    output logic [15:0] count_out_F,
-    output logic [15:0] count_out_Fs,
-    output logic [15:0] count_out_G,
-    output logic [15:0] count_out_Gs,
-    output logic [15:0] count_out_A,
-    output logic [15:0] count_out_As,
-    output logic [15:0] count_out_B
+    output logic [17:0] count_out_C,
+    output logic [17:0] count_out_Cs,
+    output logic [17:0] count_out_D,
+    output logic [17:0] count_out_Ds,
+    output logic [17:0] count_out_E,
+    output logic [17:0] count_out_F,
+    output logic [17:0] count_out_Fs,
+    output logic [17:0] count_out_G,
+    output logic [17:0] count_out_Gs,
+    output logic [17:0] count_out_A,
+    output logic [17:0] count_out_As,
+    output logic [17:0] count_out_B
     );
 
     //instances of clkdiv
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_C (
         .clk(clk),
         .n_rst(n_rst),
@@ -41,7 +41,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_Cs (
         .clk(clk),
         .n_rst(n_rst),
@@ -51,7 +51,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_D (
         .clk(clk),
         .n_rst(n_rst),
@@ -60,7 +60,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_Ds (
         .clk(clk),
         .n_rst(n_rst),
@@ -69,7 +69,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_E (
         .clk(clk),
         .n_rst(n_rst),
@@ -79,7 +79,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_F (
         .clk(clk),
         .n_rst(n_rst),
@@ -89,7 +89,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_Fs (
         .clk(clk),
         .n_rst(n_rst),
@@ -99,7 +99,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_G (
         .clk(clk),
         .n_rst(n_rst),
@@ -109,7 +109,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_Gs (
         .clk(clk),
         .n_rst(n_rst),
@@ -119,7 +119,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_A (
         .clk(clk),
         .n_rst(n_rst),
@@ -129,7 +129,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_As (
         .clk(clk),
         .n_rst(n_rst),
@@ -139,7 +139,7 @@ module oscillator (
     );
 
     clkdiv #(
-        .BITLEN(16)
+        .BITLEN(18)
     ) clkdiv_B (
         .clk(clk),
         .n_rst(n_rst),
