@@ -1,6 +1,6 @@
 # STARS 2023 Design Final Project
 
-![Teenage Mixing Ninja Turtles Team Logo] (https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png)
+![Alt text](https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png)
 
 ## Teenage Mixing Ninja Turtles
 * Eli Jorgensen
