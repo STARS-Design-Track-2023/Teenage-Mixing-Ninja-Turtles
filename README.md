@@ -1,6 +1,6 @@
 # STARS 2023 Design Final Project
 
-![Alt text](https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png)
+![Team Logo](https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png)
 
 ## Teenage Mixing Ninja Turtles
 * Eli Jorgensen
@@ -27,6 +27,24 @@ List all the required equipment and upload a breadboard with the equipment set u
 ## RTL Diagrams
 All the stuff from the proposal goes here, obviously updated from the time you did the proposal to the final layout
 Include more than just block diagrams, including sub-block diagrams, state-transition diagrams, flowcharts, and timing diagrams
+
+Overall Synth RTL
+[Synth Top RTL](../docs/synth.png)
+
+Mode Selection
+[Mode FSM](../docs/mode_select.drawio.png)
+
+Octave Control RTL
+[Octave Control RTL](../docs/octave_control.png)
+
+Clock Divider RTL
+[Clock Divider RTL](../docs/clock_divider.drawio.png)
+
+Clock Divider Wavedrom
+[Clock Wavedrom](../docs/clock_wavedrom.png)
+
+PWM Wavedrom
+[PWM Wavedrom](../docs/PWM-wave.png)
 
 ## Some Legal Statement
 From Purdue that I haven't figured out yet, maybe some stuff about Dr. J, the program, and other instructors
