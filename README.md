@@ -29,22 +29,22 @@ All the stuff from the proposal goes here, obviously updated from the time you d
 Include more than just block diagrams, including sub-block diagrams, state-transition diagrams, flowcharts, and timing diagrams
 
 Overall Synth RTL
-![Synth Top RTL](../docs/synth.png)
+![My Image](../docs/synth.png)
 
 Mode Selection
-![Mode FSM](../docs/mode_select.drawio.png)
+![My Image](../docs/mode_select.drawio.png)
 
 Octave Control RTL
-![Octave Control RTL](../docs/octave_control.png)
+![My Image](../docs/octave_control.png)
 
 Clock Divider RTL
-![Clock Divider RTL](../docs/clock_divider.drawio.png)
+![My Image](../docs/clock_divider.drawio.png)
 
 Clock Divider Wavedrom
-![Clock Wavedrom](../docs/clock_wavedrom.png)
+![My Image](../docs/clock_wavedrom.png)
 
 PWM Wavedrom
-![PWM Wavedrom](../docs/PWM-wave.png)
+![My Image](../docs/PWM-wave.png)
 
 ## Some Legal Statement
 From Purdue that I haven't figured out yet, maybe some stuff about Dr. J, the program, and other instructors
