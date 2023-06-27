@@ -28,7 +28,9 @@ logic [17:0] freq_div_table [11:0]; //frequency division table
 logic [17:0] Count [11:0];  //counters for wave shaper from oscillator
 logic [7:0] samples [11:0]; //samples from wave shaper to signal mixer
 logic [11:0] sample_enable; //sample enable for signal mixer
-logic [7:0] final_sample;   //final sample from signal mixer
+logic [7:0] final_sample;   //final sample from normalizer to pwm
+logic [11:0] mixed_sample;  //mixed sample from signal mixer
+logic [3:0] num_signals;    //number of signals to be mixed
 logic start;                //start signal from wave shaper
 logic pwm, pwm_out;         //pwm output
 
@@ -128,14 +130,28 @@ signal_mixer mixer(
     .sample11(samples[10]),
     .sample12(samples[11]),
     .sample_enable(sample_enable),
-    .sample_out(final_sample)
+    .sample_out(mixed_sample),
+    .num_signals(num_signals)
 );
+
+logic norm_done; //done signal from normalizer
+sequential_div #(12) sig_norm(
+    .clk(clk),
+    .nrst(reset),
+    .start(|done),
+    .dividend(mixed_sample),
+    .divisor({8'b0,num_signals}),
+    .fin_quo(final_sample),
+    .done(norm_done),
+    .rem()
+);
+
 
 //pwm
 pwm PWM(
   .clk(clk),
   .n_rst(reset),
-  .start(|done),
+  .start(norm_done),
   .final_in(final_sample),
   .pwm_out(pwm)
 );
