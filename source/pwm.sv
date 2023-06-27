@@ -19,17 +19,15 @@ module pwm(
 
     //Flip flop for pwm
     always_ff @(posedge clk, negedge n_rst) begin
-        if (n_rst) begin
-            if (start) begin
+        if (!n_rst) begin
+            counter <= 8'b0;
+            pwm_out <= 1'b0;
+        end
+        else begin
+            if (start)
                 final_sample_in <= final_in;
-                counter <= next_counter;
-                pwm_out <= next_pwm_out;
-            end
-            else begin
-                final_sample_in <= 8'b0;
-                counter <= 8'b0;
-                pwm_out <= 1'b0;
-            end
+            counter <= next_counter;
+            pwm_out <= next_pwm_out;
         end
     end
 
@@ -42,7 +40,7 @@ module pwm(
             next_counter = counter + 1;
 
         //next pwm output
-        if( counter <= final_sample_in)
+        if( counter < final_sample_in)
             next_pwm_out = 1'b1;
         else
             next_pwm_out = 1'b0;
