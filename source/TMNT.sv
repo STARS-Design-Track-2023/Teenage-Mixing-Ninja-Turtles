@@ -17,9 +17,9 @@ module TMNT (
     // Instantiate the top level module
     top_asic top_asic (
         .hwclk(clk),
-        .reset(n_rst),
-        .pb(gpio[15:0]),
-        .sigout(outsignal),
+        .r_eset(n_rst),
+        .pb(gpio[15:1]),
+        .sigout(gpio[17]),
     );
 
 
