@@ -3,7 +3,7 @@
 module top 
 (
   // I/O ports
-  input  logic hwclk, r_eset,
+  input  logic hwclk, r_eset, // 12 MHz clock and reset active high
   input  logic [20:0] pb,
   output logic [7:0] left, right,
          ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0,
@@ -34,6 +34,8 @@ logic [3:0] num_signals;    //number of signals to be mixed
 logic start;                //start signal from wave shaper
 logic pwm, pwm_out;         //pwm output
 
+
+///////FPGA ASSIGN STUFF///////
 assign clk = hwclk;         // dummy clock used to set 12M to 10M
 assign reset = ~r_eset;     // reset is active low
 assign sample_enable = pb[11:0]; //sample enable from keypad
@@ -160,6 +162,8 @@ pwm PWM(
 always_ff @(posedge clk)
   pwm_out <= pwm;
 
+
+/////FPGA DEMO/DEBUG //////
 assign right[1] = pwm_out;
 assign right[7] = |done;
 assign left = final_sample;
