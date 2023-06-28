@@ -42,6 +42,11 @@ Overall Synth RTL
 <img src=docs/synth.png />
 </p>
 
+User Flow Diagram
+<p align="center">
+<img src=docs/user_flow.drawio.png />
+</p>
+
 Keypad Wavedrom  
 <p align="center">
 <img src=docs/keypad_wave.png />
@@ -70,6 +75,11 @@ Clock Divider RTL
 Clock Divider Wavedrom  
 <p align="center">
 <img src=docs/clock_wavedrom.png />
+</p>
+
+Waveshaper Wavedrom
+<p align="center">
+<img src=docs/waveshaper_wave.png />
 </p>
 
 PWM RTL  
