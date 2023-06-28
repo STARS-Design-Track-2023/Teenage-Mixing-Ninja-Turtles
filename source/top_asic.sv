@@ -1,17 +1,18 @@
 `default_nettype none
 
-module top 
+module top_asic 
 (
   // I/O ports
-  input  logic hwclk, r_eset,
+  input  logic clk, reset,
   input  logic [14:0] pb,
   output logic sigout,
+  output logic [1:0] mode_out,
 
-  // UART ports
-  output logic [7:0] txdata,
-  input  logic [7:0] rxdata,
-  output logic txclk, rxclk,
-  input  logic txready, rxready
+//   // UART ports
+//   output logic [7:0] txdata,
+//   input  logic [7:0] rxdata,
+//   output logic txclk, rxclk,
+//   input  logic txready, rxready
 );
 
 //inter signal
@@ -31,8 +32,6 @@ logic [3:0] num_signals;    //number of signals to be mixed
 logic start;                //start signal from wave shaper
 logic pwm, pwm_out;         //pwm output
 
-assign clk = hwclk;         // dummy clock used to set 12M to 10M
-assign reset = ~r_eset;     // reset is active low
 assign sample_enable = pb[11:0]; //sample enable from keypad
 
 //keypad for modekey //good
@@ -158,5 +157,6 @@ always_ff @(posedge clk)
   pwm_out <= pwm;
 
 assign sigout = pwm_out;
+assign mode_out = mode;
 
 endmodule
