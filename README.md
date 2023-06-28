@@ -47,6 +47,11 @@ User Flow Diagram
 <img src=docs/user_flow.drawio.png />
 </p>
 
+Keypad RTL
+<p align="center">
+<img src=docs/scankey_rtl.png />
+</p>
+
 Keypad Wavedrom  
 <p align="center">
 <img src=docs/keypad_wave.png />
