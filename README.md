@@ -22,10 +22,10 @@ Since a PWM signal will be produced as the output, a low-pass filter will be req
 
 ## Pin Layout
 GPIO 0: Reset Button  
-GPIO 1-12: Notes Input Buttons  
-GPIO 13: Mode Button  
-GPIO 14: Octave Down Button  
-GPIO 15: Octave Up Button  
+GPIO 1-12: Notes Input Buttons   
+GPIO 13: Octave Down Button  
+GPIO 14: Octave Up Button  
+GPIO 15: Mode Button    
 GPIO 16: PWM Output 
 
 ## Supporting Equipment

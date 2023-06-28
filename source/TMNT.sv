@@ -18,7 +18,7 @@ module TMNT (
     top top_inst (
         .hwclk(clk),
         .reset(n_rst),
-        .pb(gpio[20:0]),
+        .pb(gpio[15:0]),
         .sigout(outsignal),
     );
 
