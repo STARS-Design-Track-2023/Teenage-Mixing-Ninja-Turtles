@@ -15,10 +15,10 @@ module TMNT (
     assign n_rst = cs ? nrst : 1'b0; // Assign the reset signal to the breakout board pin
 
     // Instantiate the top level module
-    top top_inst (
+    top_asic top_asic (
         .hwclk(clk),
         .reset(n_rst),
-        .pb(gpio[20:0]),
+        .pb(gpio[15:0]),
         .sigout(outsignal),
     );
 
