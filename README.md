@@ -32,7 +32,7 @@ GPIO 17-18: Mode LED Output
 ## Supporting Equipment
 Ideally the user should connect 16 buttons to the respective inputs ([see Pin Layout](#pin-layout)) so the synth can be properly controlled. It is recommended that the buttons have clear designations by color or text to avoid confusion. The buttons may fluctuate and cause unexpected errors, so pull down resistors and debouncing capacitors should be integrated with each button (see image below for example circuit). The PWM output pin should be connected to an audio jack, which can then be routed through a speaker or headphones to hear the sounds produced by the synthesizer. 
 
-The output LEDs will show the mode of the synth. When no LEDs are on, the synth is in the OFF mode and will not output a PWM. When the right LED (from GPIO 18) is on by itself, the synth will output a square wave. When the left LED (from GPIO 17) is on, the synth will output a triangle wave. When both LEDs are on, the synth will output a sawtooth wave.
+The output LEDs will show the mode of the synth. When no LEDs are on, the synth is in the OFF mode and will not output a PWM. When the LED from GPIO 17 is on by itself, the synth will output a square wave. When the LED from GPIO 18 is on, the synth will output a triangle wave. When both LEDs are on, the synth will output a sawtooth wave.
 
 Although not required, a microcontroller can be added to the synth to control the button inputs with a much smaller delay than is possible by manual input. When the design is connected to a microcontroller, the design can function similar to a real person playing a piano because octave changes can occur very rapidly within just a few clock cycles. A Raspberry Pi Pico was successfully tested under this theory and was able to take a song input and produce an output that nearly resembled the original pieces, while also matching the necessary BPM.
 
@@ -75,6 +75,16 @@ Clock Divider RTL
 Clock Divider Wavedrom  
 <p align="center">
 <img src=docs/clock_wavedrom.png />
+</p>
+
+Waveshaper RTL
+<p align="center">
+<img src=docs/waveshaper_rtl.png />
+</p>
+
+Sequential Divider RTL
+<p align="center">
+<img src=docs/seq_div_rtl.png />
 </p>
 
 Waveshaper Wavedrom
