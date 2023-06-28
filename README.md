@@ -35,7 +35,13 @@ Although not required, a microcontroller can be added to the synth to control th
 Overall Synth RTL  
 ![Synth Top RTL](docs/synth.png)
 
-Mode Selection  
+Keypad Wavedrom
+![Keypad Wavedrom](docs/keypad_wave.png)
+
+Mode Selection RTL
+![Mode RTL](docs/mode_rtl.png)
+
+Mode Selection FSM
 ![Mode FSM](docs/mode_select.drawio.png)
 
 Octave Control RTL  
@@ -46,6 +52,9 @@ Clock Divider RTL
 
 Clock Divider Wavedrom  
 ![Clock Wavedrom](docs/clock_wavedrom.png)
+
+PWM RTL
+![PWM RTL](docs/pwm_rtl.png)
 
 PWM Wavedrom  
 ![PWM Wavedrom](docs/PWM-wave.png)
