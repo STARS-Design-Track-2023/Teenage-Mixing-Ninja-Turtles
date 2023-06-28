@@ -22,12 +22,9 @@ Since a PWM signal will be produced as the output, a speaker with a low-pass fil
 Put all the GPIO pin numbers, i/o/io determination, and labels
 
 ## Supporting Equipment
-List all the required equipment and upload a breadboard with the equipment set up (recommend using tinkercad circuits if possible)
+Although not required, a microcontroller can be added to the synth to control the button inputs for faster notes to be played. When the design is connected to a microcontroller, the design can function similar to a real person playing a piano because octave changes can occur very rapidly within just a few clock cycles. A Raspberry Pi Pico was successfully tested under this theory and was able to take a song input and produce an output that nearly resembled the original pieces.
 
 ## RTL Diagrams
-All the stuff from the proposal goes here, obviously updated from the time you did the proposal to the final layout
-Include more than just block diagrams, including sub-block diagrams, state-transition diagrams, flowcharts, and timing diagrams
-
 Overall Synth RTL  
 ![Synth Top RTL](docs/synth.png)
 
