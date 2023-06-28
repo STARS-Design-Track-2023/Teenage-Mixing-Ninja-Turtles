@@ -77,6 +77,11 @@ Clock Divider Wavedrom
 <img src=docs/clock_wavedrom.png />
 </p>
 
+Oscillator
+<p align="center">
+<img src=docs/oscillator_rtl.png />
+</p>
+
 Waveshaper RTL
 <p align="center">
 <img src=docs/waveshaper_rtl.png />
