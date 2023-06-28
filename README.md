@@ -1,6 +1,8 @@
 # STARS 2023 Design Final Project
 
-![Team Logo](https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png)
+<p align="center">
+<img src=https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png />
+</p>
 
 ## Teenage Mixing Ninja Turtles
 * Eli Jorgensen
@@ -32,33 +34,50 @@ Ideally the user should connect 16 buttons to the respective inputs ([see Pin La
 Although not required, a microcontroller can be added to the synth to control the button inputs with a much smaller delay than is possible by manual input. When the design is connected to a microcontroller, the design can function similar to a real person playing a piano because octave changes can occur very rapidly within just a few clock cycles. A Raspberry Pi Pico was successfully tested under this theory and was able to take a song input and produce an output that nearly resembled the original pieces, while also matching the necessary BPM.
 
 ## RTL Diagrams
-Overall Synth RTL
+Overall Synth RTL  
 <p align="center">  
 <img src=docs/synth.png />
 </p>
+
 Keypad Wavedrom  
-![Keypad Wavedrom](docs/keypad_wave.png)
+<p align="center">
+<img src=docs/keypad_wave.png />
+</p>
 
 Mode Selection RTL  
-![Mode RTL](docs/mode_rtl.png)
+<p align="center">
+<img src=docs/mode_rtl.png />
+</p>
 
 Mode Selection FSM  
-![Mode FSM](docs/mode_select.drawio.png)
+<p align="center">
+<img src=docs/mode_select.drawio.png />
+</p>
 
 Octave Control RTL  
-![Octave Control RTL](docs/octave_control.png)
+<p align="center">
+<img src=docs/octave_control.png />
+</p>
 
 Clock Divider RTL  
-![Clock Divider RTL](docs/clock_divider.drawio.png)
+<p align="center">
+<img src=docs/clock_divider.drawio.png />
+</p>
 
 Clock Divider Wavedrom  
-![Clock Wavedrom](docs/clock_wavedrom.png)
+<p align="center">
+<img src=docs/clock_wavedrom.png />
+</p>
 
 PWM RTL  
-![PWM RTL](docs/pwm_rtl.png)
+<p align="center">
+<img src=docs/pwm_rtl.png />
+</p>
 
 PWM Wavedrom  
-![PWM Wavedrom](docs/PWM-wave.png)
+<p align="center">
+<img src=docs/PWM-wave.png />
+</p>
 
 ## Some Legal Statement
 From Purdue that I haven't figured out yet, maybe some stuff about Dr. J, the program, and other instructors
