@@ -25,7 +25,7 @@ module signal_mixer(
     logic [11:0] samples [11:0];            // 12 samples 8-bit input
     logic [3:0] sample_num;                 // 12 samples enable
 
-
+ 
     //assign the samples to the internal signals
     assign samples[0] = sample_enable[0]   ? {4'b0,sample1 }: 0;
     assign samples[1] = sample_enable[1]   ? {4'b0,sample2 }: 0;
