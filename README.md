@@ -32,16 +32,17 @@ Ideally the user should connect 16 buttons to the respective inputs ([see Pin La
 Although not required, a microcontroller can be added to the synth to control the button inputs with a much smaller delay than is possible by manual input. When the design is connected to a microcontroller, the design can function similar to a real person playing a piano because octave changes can occur very rapidly within just a few clock cycles. A Raspberry Pi Pico was successfully tested under this theory and was able to take a song input and produce an output that nearly resembled the original pieces, while also matching the necessary BPM.
 
 ## RTL Diagrams
-Overall Synth RTL  
-![Synth Top RTL](docs/synth.png)
-
-Keypad Wavedrom
+Overall Synth RTL
+<p align="center">  
+<img src=docs/synth.png />
+</p>
+Keypad Wavedrom  
 ![Keypad Wavedrom](docs/keypad_wave.png)
 
-Mode Selection RTL
+Mode Selection RTL  
 ![Mode RTL](docs/mode_rtl.png)
 
-Mode Selection FSM
+Mode Selection FSM  
 ![Mode FSM](docs/mode_select.drawio.png)
 
 Octave Control RTL  
@@ -53,7 +54,7 @@ Clock Divider RTL
 Clock Divider Wavedrom  
 ![Clock Wavedrom](docs/clock_wavedrom.png)
 
-PWM RTL
+PWM RTL  
 ![PWM RTL](docs/pwm_rtl.png)
 
 PWM Wavedrom  
