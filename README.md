@@ -19,11 +19,11 @@ A total of 5 octaves can be can be chosen with the middle octave representing mi
 Since a PWM signal will be produced as the output, a low-pass filter will be required to convert the signal into an analog variant that can be passed through a speaker, which will produce the desired tones. The bandwidth of the filter will need to be greater than about 2.1kHz since the highest note that can be played has a frequency of about 2.05kHz. If a commercial speaker (or some other audio device) is used then the above can be ignored since most modern audio devices have some form of a digital audio converter with a very high sampling rate.
 
 ## Pin Layout
-GPIO 0: Reset Button
-GPIO 1-12: Notes Input Buttons
-GPIO 13: Mode Button
-GPIO 14: Octave Down Button
-GPIO 15: Octave Up Button
+GPIO 0: Reset Button  
+GPIO 1-12: Notes Input Buttons  
+GPIO 13: Mode Button  
+GPIO 14: Octave Down Button  
+GPIO 15: Octave Up Button  
 GPIO 16: PWM Output 
 
 ## Supporting Equipment
