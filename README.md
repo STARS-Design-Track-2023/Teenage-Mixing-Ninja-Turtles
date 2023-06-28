@@ -28,22 +28,22 @@ List all the required equipment and upload a breadboard with the equipment set u
 All the stuff from the proposal goes here, obviously updated from the time you did the proposal to the final layout
 Include more than just block diagrams, including sub-block diagrams, state-transition diagrams, flowcharts, and timing diagrams
 
-Overall Synth RTL
+Overall Synth RTL  
 ![Synth Top RTL](docs/synth.png)
 
-Mode Selection
+Mode Selection  
 ![Mode FSM](docs/mode_select.drawio.png)
 
-Octave Control RTL
+Octave Control RTL  
 ![Octave Control RTL](docs/octave_control.png)
 
-Clock Divider RTL
+Clock Divider RTL  
 ![Clock Divider RTL](docs/clock_divider.drawio.png)
 
-Clock Divider Wavedrom
+Clock Divider Wavedrom  
 ![Clock Wavedrom](docs/clock_wavedrom.png)
 
-PWM Wavedrom
+PWM Wavedrom  
 ![PWM Wavedrom](docs/PWM-wave.png)
 
 ## Some Legal Statement
