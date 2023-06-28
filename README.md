@@ -1,5 +1,7 @@
 # STARS 2023 Design Final Project
 
+![Team Logo](https://cdn.discordapp.com/attachments/1118551461463343174/1123393538084831252/Team_Logo_1.png)
+
 ## Teenage Mixing Ninja Turtles
 * Eli Jorgensen
 * Uriel Orpilla
@@ -20,11 +22,26 @@ Since a PWM signal will be produced as the output, a speaker with a low-pass fil
 Put all the GPIO pin numbers, i/o/io determination, and labels
 
 ## Supporting Equipment
-List all the required equipment and upload a breadboard with the equipment set up (recommend using tinkercad circuits if possible)
+Although not required, a microcontroller can be added to the synth to control the button inputs for faster notes to be played. When the design is connected to a microcontroller, the design can function similar to a real person playing a piano because octave changes can occur very rapidly within just a few clock cycles. A Raspberry Pi Pico was successfully tested under this theory and was able to take a song input and produce an output that nearly resembled the original pieces.
 
 ## RTL Diagrams
-All the stuff from the proposal goes here, obviously updated from the time you did the proposal to the final layout
-Include more than just block diagrams, including sub-block diagrams, state-transition diagrams, flowcharts, and timing diagrams
+Overall Synth RTL  
+![Synth Top RTL](docs/synth.png)
+
+Mode Selection  
+![Mode FSM](docs/mode_select.drawio.png)
+
+Octave Control RTL  
+![Octave Control RTL](docs/octave_control.png)
+
+Clock Divider RTL  
+![Clock Divider RTL](docs/clock_divider.drawio.png)
+
+Clock Divider Wavedrom  
+![Clock Wavedrom](docs/clock_wavedrom.png)
+
+PWM Wavedrom  
+![PWM Wavedrom](docs/PWM-wave.png)
 
 ## Some Legal Statement
 From Purdue that I haven't figured out yet, maybe some stuff about Dr. J, the program, and other instructors
