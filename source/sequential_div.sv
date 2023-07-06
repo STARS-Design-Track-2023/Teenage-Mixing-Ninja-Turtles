@@ -26,7 +26,7 @@ module sequential_div #(parameter WIDTH = 26)(
   end
 
   // calculation control
-always_ff @(posedge clk or negedge nrst) begin
+always_ff @(posedge clk , negedge nrst) begin
   if (!nrst) begin
     done <= 0;
     busy <= 0;

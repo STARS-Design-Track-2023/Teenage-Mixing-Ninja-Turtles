@@ -22,6 +22,7 @@ module pwm(
         if (!n_rst) begin
             counter <= 8'b0;
             pwm_out <= 1'b0;
+            final_sample_in <= 0;
         end
         else begin
             if (start)

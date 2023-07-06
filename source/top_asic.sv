@@ -3,21 +3,13 @@
 module top_asic 
 (
   // I/O ports
-  input  logic clk, reset,
+  input  logic clk, nrst,
   input  logic [14:0] pb,
   output logic sigout,
   output logic [1:0] mode_out,
 
-//   // UART ports
-//   output logic [7:0] txdata,
-//   input  logic [7:0] rxdata,
-//   output logic txclk, rxclk,
-//   input  logic txready, rxready
 );
 
-//inter signal
-logic reset;                //reset signal
-logic clk;                  // dummy clock used to set 12M to 10M
 logic modekey;              //modekey signal  to be used for mode change
 logic octave_up, octave_down; //octave up and down signals
 logic [11:0] done;          //done signals from wave shaper
@@ -37,7 +29,7 @@ assign sample_enable = pb[11:0]; //sample enable from keypad
 //keypad for modekey //good
 keypad modein(
     .clk(clk),
-    .n_rst(reset),
+    .n_rst(nrst),
     .mode_in(pb[14]),
     .octave_in({pb[13], pb[12]}),
     .modekey(modekey),
@@ -48,7 +40,7 @@ keypad modein(
 //freq divider table //good
 frequency_divider freq_div(
     .clk(clk),
-    .nrst(reset),
+    .nrst(nrst),
     .o_up(octave_up),
     .o_down(octave_down),
     .div0(freq_div_table[0]),
@@ -69,7 +61,7 @@ frequency_divider freq_div(
 //sample rate clk div // good
 sample_rate_clkdiv smpl_rt_clkdiv(
   .clk(clk),
-  .n_rst(reset),
+  .n_rst(nrst),
   .sample_now(start)
 );
 
@@ -79,7 +71,7 @@ generate
     for (i=0; i<12; i= i +1)begin
         oscillator osc(
             .clk(clk),
-            .n_rst(reset),
+            .n_rst(nrst),
             .freq_in(freq_div_table[i]),
             .count_out(Count[i])
         );
@@ -89,7 +81,7 @@ endgenerate
 //FSM
 fsm FSM(
     .clk(clk),
-    .n_rst(reset),
+    .n_rst(nrst),
     .modekey(modekey),
     .mode(mode)
 );
@@ -99,7 +91,7 @@ generate
         for (i = 0; i < 12; i = i + 1) begin
             waveshaper wave_shpr(
                 .clk(clk),
-                .nrst(reset),
+                .nrst(nrst),
                 .fd(freq_div_table[i]),
                 .count(Count[i]),
                 .mode(mode),
@@ -133,7 +125,7 @@ signal_mixer mixer(
 logic norm_done; //done signal from normalizer
 sequential_div #(12) sig_norm(
     .clk(clk),
-    .nrst(reset),
+    .nrst(nrst),
     .start(|done),
     .dividend(mixed_sample),
     .divisor({8'b0,num_signals}),
@@ -146,15 +138,20 @@ sequential_div #(12) sig_norm(
 //pwm
 pwm PWM(
   .clk(clk),
-  .n_rst(reset),
+  .n_rst(nrst),
   .start(norm_done),
   .final_in(final_sample),
   .pwm_out(pwm)
 );
 
 //output logic
-always_ff @(posedge clk)
-  pwm_out <= pwm;
+always_ff @(posedge clk, negedge nrst)
+  if(!nrst) begin
+    pwm_out <= 0;
+  end
+  else begin 
+    pwm_out <= pwm;
+  end 
 
 assign sigout = pwm_out;
 assign mode_out = mode;
