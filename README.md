@@ -20,14 +20,13 @@ A total of 5 octaves can be can be chosen with the middle octave representing mi
 
 Since a PWM signal will be produced as the output, a low-pass filter will be required to convert the signal into an analog variant that can be passed through a speaker, which will produce the desired tones. The bandwidth of the filter will need to be greater than about 2.1kHz since the highest note that can be played has a frequency of about 2.05kHz. If a commercial speaker (or some other audio device) is used then the above can be ignored since most modern audio devices have some form of a digital audio converter with a very high sampling rate.
 
-## Pin Layout
-GPIO 0: Reset Button  
-GPIO 1-12: Notes Input Buttons   
-GPIO 13: Octave Down Button  
-GPIO 14: Octave Up Button  
-GPIO 15: Mode Button    
-GPIO 16: PWM Output  
-GPIO 17-18: Mode LED Output  
+## Pin Layout  
+GPIO 0-11: Notes Input Buttons   
+GPIO 12: Octave Down Button  
+GPIO 13: Octave Up Button  
+GPIO 14: Mode Button    
+GPIO 15: PWM Output  
+GPIO 16-17: Mode LED Output  
 
 ## Supporting Equipment
 Ideally the user should connect 16 buttons to the respective inputs ([see Pin Layout](#pin-layout)) so the synth can be properly controlled. It is recommended that the buttons have clear designations by color or text to avoid confusion. The buttons may fluctuate and cause unexpected errors, so pull down resistors and debouncing capacitors should be integrated with each button (see image below for example circuit). The PWM output pin should be connected to an audio jack, which can then be routed through a speaker or headphones to hear the sounds produced by the synthesizer. 
